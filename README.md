@@ -1,22 +1,19 @@
 # Virtual Cosmos - 2D Proximity-Based Virtual Environment
 
-> A real-time multiplayer virtual space where users can move around and chat with others when they're nearby.
+> Real-time multiplayer virtual space where avatars move around and chat only when nearby.
 
 [![React](https://img.shields.io/badge/React-19.2.4-blue.svg)](https://reactjs.org/)
 [![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)](https://nodejs.org/)
 [![Socket.IO](https://img.shields.io/badge/Socket.IO-4.6.1-black.svg)](https://socket.io/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 📖 Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
 - [Demo](#demo)
 - [Tech Stack](#tech-stack)
 - [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Running the Application](#running-the-application)
 - [Project Structure](#project-structure)
 - [How It Works](#how-it-works)
 - [API Documentation](#api-documentation)
@@ -26,31 +23,27 @@
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
 
-## 🌟 Overview
+## Overview
 
-Virtual Cosmos is a real-time multiplayer virtual environment that simulates proximity-based communication. Users can move their avatars in a 2D space, and chat connections are automatically established when users come within 150 pixels of each other. The system provides a seamless, real-time experience with smooth animations and instant communication.
+Virtual Cosmos is a real-time multiplayer environment with proximity-based chat. Move your avatar around a 2D canvas, and you can only message people within 150 pixels. Step away and the connection drops — same as a real conversation.
 
-**Key Concept:** Just like in real life, you can only chat with people who are nearby. Move close to start a conversation, move away to end it.
+## Features
 
-## ✨ Features
+### Core
+- Real-time avatar movement at 60 FPS via WASD or arrow keys
+- Chat connects and disconnects automatically based on distance
+- Multiple users visible and interactive at once
+- Position updates sync across all clients instantly
+- Visual indicators for connections and nearby users
 
-### Core Features
-- 🎮 **Real-Time Movement** - Smooth 60 FPS avatar movement using WASD or arrow keys
-- 💬 **Proximity-Based Chat** - Automatic chat connection/disconnection based on distance
-- 👥 **Multi-User Support** - See and interact with multiple users simultaneously
-- 🔄 **Live Synchronization** - Real-time position updates across all connected clients
-- 🎨 **Visual Feedback** - Clear indicators for connections, positions, and user status
+### Extra
+- Chat history saved in localStorage between sessions
+- Click any connected user in the sidebar to focus their chat
+- 1200×800 canvas — plenty of room to roam
+- White circle around your avatar shows your connection radius
+- Green/gray dots indicate who's in range
 
-### Enhanced Features
-- 💾 **Persistent Chat History** - Messages saved in localStorage across sessions
-- 🖱️ **Click-to-Focus** - Click on connected users to quickly access chat
-- 📏 **Expanded Canvas** - Large 1200x800 pixel canvas for comfortable navigation
-- 🎯 **Proximity Visualization** - White circle showing your connection radius
-- 🔔 **Connection Indicators** - Green/gray dots showing who's in range
-
-## 🎬 Demo
-
-### Screenshots
+## Demo
 
 **Main Interface**
 ```
@@ -69,437 +62,229 @@ Virtual Cosmos is a real-time multiplayer virtual environment that simulates pro
 └──────────┴──────────────────────────────────────┴───────────┘
 ```
 
-### Quick Demo
+**Quick test:**
 1. Open two browser tabs
 2. Enter different usernames (e.g., "Alice" and "Bob")
-3. Move avatars close together using WASD keys
-4. Watch chat panel appear automatically
-5. Send messages back and forth
-6. Move apart - chat disappears but history persists!
+3. Move avatars close together with WASD
+4. Chat panel opens automatically
+5. Send messages
+6. Move apart — chat closes, history stays
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-### Frontend
-- **React 19** - Modern UI framework with hooks
-- **PixiJS 8** - High-performance 2D rendering engine
-- **Socket.IO Client** - Real-time bidirectional communication
-- **Tailwind CSS** - Utility-first CSS framework
-- **Vite** - Next-generation frontend build tool
+**Frontend:** React 19, PixiJS 8, Socket.IO Client, Tailwind CSS, Vite
 
-### Backend
-- **Node.js** - JavaScript runtime
-- **Express** - Minimal web framework
-- **Socket.IO** - WebSocket server for real-time events
-- **CORS** - Cross-origin resource sharing
+**Backend:** Node.js, Express, Socket.IO, CORS
 
-### Development Tools
-- **Nodemon** - Auto-restart server on changes
-- **ESLint** - Code linting
-- **Git** - Version control
+**Dev tools:** Nodemon, ESLint, Git
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-Before you begin, ensure you have the following installed:
-- **Node.js** (v14 or higher) - [Download](https://nodejs.org/)
-- **npm** (comes with Node.js) or **yarn**
-- **Git** - [Download](https://git-scm.com/)
+- Node.js v14+
+- npm or yarn
+- Git
 
-Check your installations:
 ```bash
-node --version  # Should be v14 or higher
-npm --version   # Should be 6 or higher
+node --version  # v14 or higher
+npm --version   # 6 or higher
 ```
 
 ### Installation
 
-1. **Clone the repository**
 ```bash
 git clone https://github.com/yourusername/virtual-cosmos.git
 cd virtual-cosmos
+
+cd backend && npm install
+cd ../frontend && npm install
 ```
 
-2. **Install backend dependencies**
-```bash
-cd backend
-npm install
-```
+### Running
 
-3. **Install frontend dependencies**
-```bash
-cd ../frontend
-npm install
-```
-
-### Running the Application
-
-#### Option 1: Run Both Servers Separately
-
-**Terminal 1 - Backend Server:**
+**Terminal 1 — Backend:**
 ```bash
 cd backend
 npm run dev
+# Starts on http://localhost:3000
 ```
-✅ Backend will start on `http://localhost:3000`
 
-**Terminal 2 - Frontend Server:**
+**Terminal 2 — Frontend:**
 ```bash
 cd frontend
 npm run dev
+# Starts on http://localhost:5173
 ```
-✅ Frontend will start on `http://localhost:5173`
 
-#### Option 2: Quick Start Script (Optional)
-
-Create a `start.sh` file in the root directory:
+**Optional startup script:**
 ```bash
 #!/bin/bash
-# Start backend
 cd backend && npm run dev &
-# Start frontend
 cd frontend && npm run dev &
 wait
 ```
 
-Then run:
-```bash
-chmod +x start.sh
-./start.sh
-```
+### Using the App
 
-### Accessing the Application
+1. Go to `http://localhost:5173`
+2. Enter a username and click "Join Lobby"
+3. Move with WASD or arrow keys
+4. Open multiple tabs with different usernames to test proximity chat
 
-1. Open your browser
-2. Navigate to `http://localhost:5173`
-3. Enter a username
-4. Click "Join Lobby"
-5. Use WASD or arrow keys to move around!
-
-**Testing with Multiple Users:**
-- Open multiple browser tabs or windows
-- Use different usernames in each
-- Move avatars close together to start chatting
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 virtual-cosmos/
-├── backend/                    # Node.js + Express + Socket.IO server
-│   ├── handlers/              # Socket.IO event handlers
+├── backend/
+│   ├── handlers/
 │   │   ├── connectionHandlers.js
 │   │   └── socketHandlers.js
-│   ├── middleware/            # Validation and rate limiting
+│   ├── middleware/
 │   │   ├── rateLimiter.js
 │   │   └── validator.js
-│   ├── services/              # Business logic
+│   ├── services/
 │   │   ├── connectionManager.js
 │   │   ├── proximityDetector.js
 │   │   └── userStateManager.js
-│   ├── models/               # (Empty - ready for MongoDB)
-│   ├── routes/               # (Empty - ready for REST API)
-│   ├── tests/                # (Empty - ready for tests)
-│   ├── .env                  # Environment variables
-│   ├── .env.example          # Example environment file
-│   ├── server.js             # Main server file
-│   └── package.json          # Backend dependencies
+│   ├── models/           # empty — ready for MongoDB
+│   ├── routes/           # empty — ready for REST API
+│   ├── tests/            # empty — ready for test suites
+│   ├── .env
+│   ├── .env.example
+│   ├── server.js
+│   └── package.json
 │
-├── frontend/                  # React + PixiJS + Tailwind frontend
+├── frontend/
 │   ├── src/
-│   │   ├── components/       # React components
+│   │   ├── components/
 │   │   │   ├── ChatPanel.jsx
 │   │   │   ├── ConnectionStatus.jsx
 │   │   │   └── CosmosWorld.jsx
-│   │   ├── services/         # Socket.IO client
+│   │   ├── services/
 │   │   │   └── socket.js
-│   │   ├── assets/           # Images and static files
-│   │   ├── App.jsx           # Main app component
-│   │   ├── main.jsx          # Entry point
-│   │   └── index.css         # Global styles
-│   ├── public/               # Public assets
-│   ├── .env                  # Frontend environment variables
-│   ├── index.html            # HTML template
-│   ├── vite.config.js        # Vite configuration
-│   └── package.json          # Frontend dependencies
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── public/
+│   ├── .env
+│   ├── index.html
+│   ├── vite.config.js
+│   └── package.json
 │
-├── .gitignore                # Git ignore rules
-├── README.md                 # This file
-├── LICENSE                   # MIT License
-└── package.json              # Root package file (optional)
+├── .gitignore
+├── README.md
+├── LICENSE
+└── package.json
 ```
 
-## 🔧 How It Works
+## How It Works
 
-### Architecture Overview
+### Architecture
 
 ```
 ┌─────────────────┐         WebSocket          ┌─────────────────┐
-│                 │◄──────────────────────────►│                 │
-│  React Frontend │    Socket.IO Events        │  Node.js Backend│
-│   + PixiJS      │                            │   + Socket.IO   │
-│                 │                            │                 │
+│  React Frontend │◄──────────────────────────►│  Node.js Backend│
+│   + PixiJS      │    Socket.IO Events        │   + Socket.IO   │
 └─────────────────┘                            └─────────────────┘
-        │                                              │
         │                                              │
         ▼                                              ▼
   ┌──────────┐                                  ┌──────────┐
   │ Canvas   │                                  │ Services │
-  │ Rendering│                                  │ - State  │
-  │ (PixiJS) │                                  │ - Prox.  │
-  └──────────┘                                  │ - Conn.  │
+  │ (PixiJS) │                                  │ State    │
+  └──────────┘                                  │ Proximity│
+                                                │ Conn.    │
                                                 └──────────┘
 ```
 
-### Key Components
+### Frontend Components
 
-#### Frontend (React + PixiJS)
-1. **CosmosWorld.jsx** - Main canvas component
-   - Renders avatars using PixiJS
-   - Handles WASD keyboard input
-   - Updates positions at 60 FPS
-   - Manages avatar sprites
+- **CosmosWorld.jsx** — PixiJS canvas, keyboard input, avatar rendering at 60 FPS
+- **ChatPanel.jsx** — Message display, input, localStorage persistence, auto-scroll
+- **ConnectionStatus.jsx** — Online user list, connection indicators, click-to-focus
+- **socket.js** — WebSocket client, position emits, event listeners, reconnection
 
-2. **ChatPanel.jsx** - Chat interface
-   - Displays messages
-   - Handles message input
-   - Persists history in localStorage
-   - Auto-scrolls to latest message
+### Backend Components
 
-3. **ConnectionStatus.jsx** - User list sidebar
-   - Shows all online users
-   - Visual connection indicators
-   - Click-to-focus functionality
+- **server.js** — Express + Socket.IO setup, CORS, event routing
+- **socketHandlers.js** — Handles `user:join`, `position:move`, `chat:send`
+- **proximityDetector.js** — Euclidean distance, connection open/close logic
+- **userStateManager.js** — Tracks positions, connections, user metadata
+- **connectionManager.js** — Notifies clients of connection changes
 
-4. **socket.js** - Socket.IO client service
-   - Manages WebSocket connection
-   - Emits position updates
-   - Listens for events
-   - Handles reconnection
-
-#### Backend (Node.js + Socket.IO)
-1. **server.js** - Main server
-   - Express HTTP server
-   - Socket.IO initialization
-   - CORS configuration
-   - Event routing
-
-2. **socketHandlers.js** - Event handlers
-   - `user:join` - User connection
-   - `position:move` - Position updates
-   - `chat:send` - Chat messages
-
-3. **proximityDetector.js** - Distance calculation
-   - Euclidean distance formula
-   - Connection establishment
-   - Connection termination
-
-4. **userStateManager.js** - State management
-   - User positions
-   - Active connections
-   - User metadata
-
-5. **connectionManager.js** - Connection logic
-   - Notify connection establishment
-   - Notify connection termination
-   - Manage connection state
-
-### Real-Time Communication Flow
+### Movement Flow
 
 ```
-User Moves Avatar
-      ↓
-Frontend detects WASD input
-      ↓
-Update local position (60 FPS)
-      ↓
-Emit 'position:move' to server (throttled to 16ms)
-      ↓
-Server receives position update
-      ↓
-Calculate distances to all users
-      ↓
-Check if new connections/disconnections
-      ↓
-Broadcast position to all clients
-      ↓
-Notify affected users of connection changes
-      ↓
-All clients update avatar positions
+WASD input detected
+  → Update local position (60 FPS)
+  → Emit position:move to server (throttled at 16ms)
+  → Server recalculates distances to all users
+  → Broadcasts updated position to all clients
+  → Sends connection:established or connection:terminated to affected users
+  → All clients re-render avatar positions
 ```
 
-## 📡 API Documentation
+## API Documentation
 
-### Socket.IO Events
+### Client → Server
 
-#### Client → Server
-
-**`user:join`**
 ```javascript
-socket.emit('user:join', {
-  username: string,
-  position?: { x: number, y: number }
-});
+socket.emit('user:join', { username: string, position?: { x, y } });
+socket.emit('position:move', { position: { x, y } });
+socket.emit('chat:send', { message: string });
 ```
 
-**`position:move`**
+### Server → Client
+
 ```javascript
-socket.emit('position:move', {
-  position: { x: number, y: number }
-});
+socket.on('users:list', (users: Array<{ userId, username, position }>));
+socket.on('user:joined', ({ userId, username, position }));
+socket.on('user:left', ({ userId }));
+socket.on('position:update', ({ userId, position }));
+socket.on('connection:established', ({ userId, username }));
+socket.on('connection:terminated', ({ userId }));
+socket.on('chat:message', ({ userId, username, message, timestamp }));
 ```
 
-**`chat:send`**
-```javascript
-socket.emit('chat:send', {
-  message: string
-});
-```
+## Testing
 
-#### Server → Client
+### Manual
 
-**`users:list`**
-```javascript
-socket.on('users:list', (users: Array<{
-  userId: string,
-  username: string,
-  position: { x: number, y: number }
-}>));
-```
+**Single user:** Join, test WASD movement, verify smooth avatar control.
 
-**`user:joined`**
-```javascript
-socket.on('user:joined', (data: {
-  userId: string,
-  username: string,
-  position: { x: number, y: number }
-}));
-```
+**Multi-user:** Open 2–3 tabs with different usernames. Move avatars together and confirm chat opens. Send messages. Move apart and confirm chat closes but history persists.
 
-**`user:left`**
-```javascript
-socket.on('user:left', (data: {
-  userId: string
-}));
-```
+**Edge cases:** Rapid movement, canvas boundaries, disconnect/reconnect, 5+ simultaneous users, rate limiting.
 
-**`position:update`**
-```javascript
-socket.on('position:update', (data: {
-  userId: string,
-  position: { x: number, y: number }
-}));
-```
+### Automated (planned)
 
-**`connection:established`**
-```javascript
-socket.on('connection:established', (data: {
-  userId: string,
-  username: string
-}));
-```
+`tests/` folders are in place for Jest unit tests, integration tests, and Playwright/Cypress E2E tests.
 
-**`connection:terminated`**
-```javascript
-socket.on('connection:terminated', (data: {
-  userId: string
-}));
-```
+## Deployment
 
-**`chat:message`**
-```javascript
-socket.on('chat:message', (data: {
-  userId: string,
-  username: string,
-  message: string,
-  timestamp: number
-}));
-```
+### Backend (Heroku)
 
-## 🧪 Testing
-
-### Manual Testing
-
-1. **Single User Test**
-```bash
-# Start both servers
-# Open http://localhost:5173
-# Enter username and join
-# Test WASD movement
-# Verify avatar moves smoothly
-```
-
-2. **Multi-User Test**
-```bash
-# Open 2-3 browser tabs
-# Enter different usernames
-# Move avatars close together
-# Verify chat panel appears
-# Send messages
-# Verify messages appear in all connected tabs
-# Move apart
-# Verify chat panel disappears
-# Move close again
-# Verify chat history persists
-```
-
-3. **Edge Cases**
-```bash
-# Test rapid movement
-# Test boundary detection
-# Test disconnection/reconnection
-# Test with 5+ users
-# Test message rate limiting
-```
-
-### Automated Testing (Future)
-
-The project structure includes empty `tests/` folders ready for:
-- Unit tests (Jest)
-- Integration tests
-- E2E tests (Playwright/Cypress)
-
-## 🚢 Deployment
-
-### Backend Deployment (Heroku Example)
-
-1. **Create Heroku app**
 ```bash
 heroku create virtual-cosmos-backend
-```
-
-2. **Set environment variables**
-```bash
-heroku config:set NODE_ENV=production
-heroku config:set PORT=3000
-```
-
-3. **Deploy**
-```bash
+heroku config:set NODE_ENV=production PORT=3000
 git subtree push --prefix backend heroku main
 ```
 
-### Frontend Deployment (Vercel Example)
+### Frontend (Vercel)
 
-1. **Install Vercel CLI**
 ```bash
 npm install -g vercel
+cd frontend && vercel --prod
 ```
 
-2. **Deploy**
-```bash
-cd frontend
-vercel --prod
-```
-
-3. **Update Socket URL**
-```bash
-# Update frontend/.env
+Update `frontend/.env`:
+```env
 VITE_SOCKET_URL=https://your-backend-url.herokuapp.com
 ```
 
 ### Environment Variables
 
-**Backend (.env)**
+**backend/.env**
 ```env
 NODE_ENV=production
 PORT=3000
@@ -509,60 +294,49 @@ CANVAS_WIDTH=1200
 CANVAS_HEIGHT=800
 ```
 
-**Frontend (.env)**
+**frontend/.env**
 ```env
 VITE_SOCKET_URL=https://your-backend-url.herokuapp.com
 ```
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Please follow these steps:
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m 'Add your feature'`
+4. Push: `git push origin feature/your-feature`
+5. Open a pull request
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Follow the ESLint config, write clear commit messages, and comment anything non-obvious.
 
-### Code Style
-- Use ESLint configuration provided
-- Follow React best practices
-- Write meaningful commit messages
-- Add comments for complex logic
+## License
 
-## 📄 License
+MIT — see [LICENSE](LICENSE).
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## Acknowledgments
 
-## 🙏 Acknowledgments
+Built for the Upskill Mafia MERN Internship. Inspired by [Cosmos.video](https://cosmos.video/).
 
-- **Assignment:** Upskill Mafia MERN Internship
-- **Design Inspiration:** [Cosmos.video](https://cosmos.video/)
-- **Technologies:** React, Node.js, Socket.IO, PixiJS
-- **Community:** Thanks to all contributors and testers
-
-## 📞 Contact & Support
+## Contact
 
 - **Author:** [Your Name]
-- **Email:** [your.email@example.com]
+- **Email:** your.email@example.com
 - **GitHub:** [@yourusername](https://github.com/yourusername)
 - **LinkedIn:** [Your LinkedIn](https://linkedin.com/in/yourprofile)
 
-## 🔮 Future Enhancements
+## Planned
 
-- [ ] MongoDB integration for persistent storage
-- [ ] User authentication (JWT)
-- [ ] Private messaging
-- [ ] Voice chat integration
-- [ ] Multiple rooms/spaces
-- [ ] User profiles and avatars
-- [ ] Message reactions
-- [ ] Typing indicators
-- [ ] Mobile responsive controls
-- [ ] Admin dashboard
+- MongoDB for persistent storage
+- JWT authentication
+- Private messaging
+- Voice chat
+- Multiple rooms
+- User profiles/avatars
+- Message reactions
+- Typing indicators
+- Mobile controls
+- Admin dashboard
 
 ---
 
-**Built with ❤️ for Upskill Mafia MERN Internship**
-
-⭐ Star this repo if you found it helpful!
+*Built for Upskill Mafia MERN Internship*
