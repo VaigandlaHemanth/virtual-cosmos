@@ -9,6 +9,7 @@ function App() {
   const [joined, setJoined] = useState(false);
   const [connections, setConnections] = useState([]);
   const chatPanelRef = useRef(null);
+  const moveToUserRef = useRef(null);
 
   useEffect(() => {
     if (joined) {
@@ -42,15 +43,20 @@ function App() {
   };
 
   const handleUserClick = (user) => {
-    // Scroll to chat panel and focus input
-    if (chatPanelRef.current) {
-      chatPanelRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      // Focus the chat input
-      const chatInput = chatPanelRef.current.querySelector('input[type="text"]');
-      if (chatInput) {
-        setTimeout(() => chatInput.focus(), 300);
-      }
+    console.log('[App] User clicked:', user);
+    
+    // Move to user's proximity
+    if (moveToUserRef.current) {
+      moveToUserRef.current(user);
     }
+    
+    // Focus chat input after a short delay
+    setTimeout(() => {
+      if (chatPanelRef.current && chatPanelRef.current.focusInput) {
+        chatPanelRef.current.focusInput();
+        console.log('[App] Chat input focused');
+      }
+    }, 300);
   };
 
   if (!joined) {
@@ -93,13 +99,11 @@ function App() {
         <ConnectionStatus connections={connections} onUserClick={handleUserClick} />
         
         <div className="flex-1 bg-[url('https://www.transparenttextures.com/patterns/grid-me.png')] relative flex flex-col overflow-hidden">
-          <CosmosWorld currentUsername={username} />
+          <CosmosWorld currentUsername={username} onMoveToUser={moveToUserRef} />
         </div>
 
         {isChatVisible && (
-          <div ref={chatPanelRef} className="h-full z-10">
-            <ChatPanel connections={connections} />
-          </div>
+          <ChatPanel ref={chatPanelRef} connections={connections} />
         )}
       </div>
 

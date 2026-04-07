@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import socketService from '../services/socket';
 
-const ChatPanel = ({ connections }) => {
+const ChatPanel = forwardRef(({ connections }, ref) => {
   const [messages, setMessages] = useState(() => {
     // Load messages from localStorage on mount
     const saved = localStorage.getItem('cosmos-chat-messages');
@@ -10,6 +10,16 @@ const ChatPanel = ({ connections }) => {
   const [inputText, setInputText] = useState('');
   const endOfMessagesRef = useRef(null);
   const listenerRegisteredRef = useRef(false);
+  const inputRef = useRef(null);
+
+  // Expose focus method to parent
+  useImperativeHandle(ref, () => ({
+    focusInput: () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    }
+  }));
 
   useEffect(() => {
     // Only register listener once
@@ -76,6 +86,7 @@ const ChatPanel = ({ connections }) => {
       <form onSubmit={handleSend} className="p-4 border-t border-gray-200 bg-white">
         <div className="flex space-x-2">
           <input
+            ref={inputRef}
             type="text"
             className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Type a message..."
@@ -92,6 +103,8 @@ const ChatPanel = ({ connections }) => {
       </form>
     </div>
   );
-};
+});
+
+ChatPanel.displayName = 'ChatPanel';
 
 export default ChatPanel;

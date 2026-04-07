@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import socketService from '../services/socket';
 
+const AVATAR_IMAGES = ['/avatar1.png', '/avatar2.png', '/avatar3.png'];
+
+export const getAvatarForUser = (username) => {
+  let hash = 0;
+  for (let i = 0; i < username.length; i++) {
+    hash = username.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return AVATAR_IMAGES[Math.abs(hash) % AVATAR_IMAGES.length];
+};
+
 const ConnectionStatus = ({ connections, onUserClick }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
 
@@ -24,8 +34,8 @@ const ConnectionStatus = ({ connections, onUserClick }) => {
   }, []);
 
   const handleUserClick = (user) => {
-    const isConnected = connections.some(c => c.userId === user.userId);
-    if (isConnected && onUserClick) {
+    // We now allow clicking out of range users to auto-move to them!
+    if (onUserClick) {
       onUserClick(user);
     }
   };
@@ -44,22 +54,21 @@ const ConnectionStatus = ({ connections, onUserClick }) => {
         <ul className="space-y-3">
           {onlineUsers.map(u => {
             const isConnected = connections.some(c => c.userId === u.userId);
+            const avatar = getAvatarForUser(u.username);
             return (
               <li 
                 key={u.userId} 
-                className={`flex items-center space-x-3 p-2 rounded-lg transition-colors ${
-                  isConnected ? 'hover:bg-blue-50 cursor-pointer' : ''
-                }`}
+                className="flex items-center space-x-3 p-2 rounded-lg transition-colors hover:bg-blue-50 cursor-pointer"
                 onClick={() => handleUserClick(u)}
-                title={isConnected ? 'Click to focus chat' : 'Out of range'}
+                title={isConnected ? 'Proximity chat established' : 'Click to move to user'}
               >
-                <div className="relative">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium text-sm">
-                    {u.username.charAt(0).toUpperCase()}
+                <div className="relative shrink-0">
+                  <div className="w-9 h-9 bg-gray-100 rounded-full overflow-hidden flex items-center justify-center border-2 border-white shadow-sm">
+                    <img src={avatar} alt={`${u.username} avatar`} className="w-full h-full object-cover" />
                   </div>
-                  <div className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-white ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
+                  <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-white ${isConnected ? 'bg-green-500' : 'bg-gray-400'}`}></div>
                 </div>
-                <span className={`text-sm font-medium ${isConnected ? 'text-gray-900' : 'text-gray-600'}`}>{u.username}</span>
+                <span className={`text-sm font-medium truncate ${isConnected ? 'text-gray-900' : 'text-gray-600'}`}>{u.username}</span>
               </li>
             );
           })}
