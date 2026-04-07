@@ -94,7 +94,7 @@ npm --version   # 6 or higher
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/virtual-cosmos.git
+git clone https://github.com/VaigandlaHemanth/virtual-cosmos
 cd virtual-cosmos
 
 cd backend && npm install
