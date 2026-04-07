@@ -319,10 +319,10 @@ Built for the Upskill Mafia MERN Internship. Inspired by [Cosmos.video](https://
 
 ## Contact
 
-- **Author:** [Your Name]
-- **Email:** your.email@example.com
-- **GitHub:** [@yourusername](https://github.com/yourusername)
-- **LinkedIn:** [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- **Author:** Vaigandla Hemanth Kumar
+- **Email:** vaigandlachinna2003@gmail.com
+- **GitHub:** [@yourusername](https://github.com/VaigandlaHemanth)
+- **LinkedIn:** [Your LinkedIn](www.linkedin.com/in/hemanth-vaigandla)
 
 ## Planned
 
